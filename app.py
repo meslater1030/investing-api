@@ -22,6 +22,8 @@ def snake_case_to_kebab_case(string):
 	return '-'.join(string.split('_'))
 
 def deserialize(json):
+	if not 'data' in json and if not 'attributes' in json['data']:
+		return json
 	data = json['data']['attributes']
 	data['id'] = None if not 'id' in json['data'] else json['data']['id']
 	for key in data.keys():
@@ -51,8 +53,7 @@ def get_user(user_id):
 		abort(404)
 	return jsonify({ 'data': serialize(user) })
 
-@app.route('/api/users/<string:user_id>', methods=['PUT'])
-@app.route('/api/users/<string:user_id>', methods=['PATCH'])
+@app.route('/api/users/<string:user_id>', methods=['PUT', 'PATCH'])
 def update_user(user_id):
 	attrs = deserialize(request.json)
 	user = User.update(**attrs)
