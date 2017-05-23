@@ -13,7 +13,7 @@ class BaseModel(object):
 		instance = cls(**kwargs)
 		db.session.add(instance)
 		db.session.commit()
-		return instance
+		return db.session.query(cls).filter_by(id=instance.id).first()
 
 	@classmethod
 	def update(cls, **kwargs):
