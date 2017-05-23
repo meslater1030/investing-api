@@ -22,7 +22,9 @@ def snake_case_to_kebab_case(string):
 	return '-'.join(string.split('_'))
 
 def deserialize(json):
-	if not 'data' in json and if not 'attributes' in json['data']:
+	if not 'data' in json:
+		return json
+	if not 'attributes' in json['data']:
 		return json
 	data = json['data']['attributes']
 	data['id'] = None if not 'id' in json['data'] else json['data']['id']
