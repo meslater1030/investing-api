@@ -73,6 +73,8 @@ def send_options():
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
+	if request.get_json == '':
+		return jsonify(success=True)
 	attrs = deserialize(request.json)
 	attrs['id'] = str(uuid.uuid4())
 	saved_user = User.create(**attrs)
