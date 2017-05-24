@@ -70,8 +70,8 @@ def create_user():
 		attrs['id'] = str(uuid.uuid4())
 		saved_user = User.create(**attrs)
 		return jsonify({ 'data': serialize(saved_user) })
-	except Exception as e:
-		return jsonify({ 'error': e })
+	except Exception:
+		abort(400)
 
 @app.route('/api/users/<string:user_id>', methods=['DELETE'])
 def delete_user(user_id):
