@@ -14,7 +14,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
 CORS(app, resources={
 	r'/api/*': { 
-		'expose_headers': ['Content-Type', 'Accept', 'X-Requested-With', 'Session'],
 		'send_wildcard': True
 	}
 })
