@@ -65,6 +65,7 @@ def update_user(user_id):
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
+	# trivial change
 	attrs = deserialize(request.json)
 	attrs['id'] = str(uuid.uuid4())
 	saved_user = User.create(**attrs)
