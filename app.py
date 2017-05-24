@@ -70,7 +70,7 @@ def update_user(user_id):
 		abort(404)
 	return jsonify({ 'data': serialize(user) })
 
-@app.route('/api/users', methods=['POST'])
+@app.route('/api/users', methods=['POST', ['OPTIONS']])
 def create_user():
 	if request.get_json(silent=True) == None:
 		return jsonify(success=True), 200, {
