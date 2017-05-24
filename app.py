@@ -73,11 +73,7 @@ def update_user(user_id):
 @app.route('/api/users', methods=['POST', 'OPTIONS'])
 def create_user():
 	if request.get_json(silent=True) == None:
-		return jsonify(success=True), 200, {
-		'Access-Control-Allow-Headers': ['Content-Type', 'Accept', 'X-Requested-With', 'Session'],
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Methods': ['POST', 'GET', 'OPTIONS'],
-	}
+		return jsonify(success=True)
 	attrs = deserialize(request.json)
 	attrs['id'] = str(uuid.uuid4())
 	saved_user = User.create(**attrs)
