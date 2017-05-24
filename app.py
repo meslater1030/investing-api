@@ -63,7 +63,7 @@ def update_user(user_id):
 		abort(404)
 	return jsonify({ 'data': serialize(user) })
 
-@app.route('/api/users', methods=['POST'])
+@app.route('/api/users', methods=['POST', 'OPTIONS'])
 def create_user():
 	if request.get_data() == '':
 		return jsonify(success=True), 200, {'Content-Type': 'application/vnd.api+json'}
