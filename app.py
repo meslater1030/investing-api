@@ -70,17 +70,9 @@ def update_user(user_id):
 		abort(404)
 	return jsonify({ 'data': serialize(user) })
 
-@app.route('/api/users', methods=['OPTIONS'])
-def send_options():
-	return jsonify(success=True), 200, {
-		'Access-Control-Allow-Headers': ['Content-Type', 'Accept', 'X-Requested-With', 'Session'],
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Methods': ['POST', 'GET', 'OPTIONS'],
-	}
-
 @app.route('/api/users', methods=['POST'])
 def create_user():
-	if request.get_json == '':
+	if request.get_json(silent=True) == None:
 		return jsonify(success=True), 200, {
 		'Access-Control-Allow-Headers': ['Content-Type', 'Accept', 'X-Requested-With', 'Session'],
 		'Access-Control-Allow-Origin': '*',
