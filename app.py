@@ -73,12 +73,13 @@ def send_options():
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
-	if request.get_json == '':
-		return jsonify(success=True)
-	attrs = deserialize(request.json)
-	attrs['id'] = str(uuid.uuid4())
-	saved_user = User.create(**attrs)
-	return jsonify({ 'data': serialize(saved_user) }), 200, {'Content-Type': 'application/vnd.api+json'}
+	# if request.get_json == '':
+	# 	return jsonify(success=True)
+	# attrs = deserialize(request.json)
+	# attrs['id'] = str(uuid.uuid4())
+	# saved_user = User.create(**attrs)
+	# return jsonify({ 'data': serialize(saved_user) }), 200, {'Content-Type': 'application/vnd.api+json'}
+	return jsonify({ "data": { "id": 2, "type": "user"}})
 
 @app.route('/api/users/<string:user_id>', methods=['DELETE'])
 def delete_user(user_id):
