@@ -65,13 +65,10 @@ def update_user(user_id):
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
-	try:
-		attrs = deserialize(request.json)
-		attrs['id'] = str(uuid.uuid4())
-		saved_user = User.create(**attrs)
-		return jsonify({ 'data': serialize(saved_user) })
-	except Exception:
-		abort(400)
+	attrs = deserialize(request.json)
+	attrs['id'] = str(uuid.uuid4())
+	saved_user = User.create(**attrs)
+	return jsonify({ 'data': serialize(saved_user) })
 
 @app.route('/api/users/<string:user_id>', methods=['DELETE'])
 def delete_user(user_id):
