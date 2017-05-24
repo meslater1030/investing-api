@@ -66,7 +66,7 @@ def update_user(user_id):
 @app.route('/api/users', methods=['POST', 'OPTIONS'])
 def create_user():
 	if request.get_data() == '':
-		return jsonify(success=True), 200, {'Content-Type': 'application/vnd.api+json'}
+		return jsonify(success=True), 200, {'Content-Type': 'application/vnd.api+json', 'Access-Control-Allow-Headers': ['Content-Type', 'Accept', 'X-Requested-With', 'Session']}
 	attrs = deserialize(request.json)
 	attrs['id'] = str(uuid.uuid4())
 	saved_user = User.create(**attrs)
