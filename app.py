@@ -65,13 +65,12 @@ def update_user(user_id):
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
-	request.accept_mimetypes['application/vnd.api+json']
 	if request.get_data() == '':
-		return jsonify(success=True)
+		return jsonify(success=True), 200, {'Content-Type': 'application/vnd.api+json'}
 	attrs = deserialize(request.json)
 	attrs['id'] = str(uuid.uuid4())
 	saved_user = User.create(**attrs)
-	return jsonify({ 'data': serialize(saved_user) })
+	return jsonify({ 'data': serialize(saved_user) }), 200, {'Content-Type': 'application/vnd.api+json'}
 
 @app.route('/api/users/<string:user_id>', methods=['DELETE'])
 def delete_user(user_id):
