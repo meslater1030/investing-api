@@ -5,13 +5,20 @@ from flask_cors import CORS
 from flask import abort
 from flask import make_response
 import uuid
+import logging
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 
-CORS(app, resources=r'/api/*')
+CORS(app, resources={
+	r'/api/*': { 
+		'expose_headers': ['Content-Type', 'Accept', 'X-Requested-With', 'Session'],
+		'send_wildcard': True
+	}
+})
+logging.getLogger('flask_cors').level = logging.DEBUG
 
 from models import User
 
@@ -73,13 +80,16 @@ def send_options():
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
-	# if request.get_json == '':
-	# 	return jsonify(success=True)
-	# attrs = deserialize(request.json)
-	# attrs['id'] = str(uuid.uuid4())
-	# saved_user = User.create(**attrs)
-	# return jsonify({ 'data': serialize(saved_user) }), 200, {'Content-Type': 'application/vnd.api+json'}
-	return jsonify({ "data": { "id": 2, "type": "user"}})
+	if request.get_json == '':
+		return jsonify(success=True), 200, {
+		'Access-Control-Allow-Headers': ['Content-Type', 'Accept', 'X-Requested-With', 'Session'],
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Methods': ['POST', 'GET', 'OPTIONS'],
+	}
+	attrs = deserialize(request.json)
+	attrs['id'] = str(uuid.uuid4())
+	saved_user = User.create(**attrs)
+	return jsonify({ 'data': serialize(saved_user) }), 200, {'Content-Type': 'application/vnd.api+json'}
 
 @app.route('/api/users/<string:user_id>', methods=['DELETE'])
 def delete_user(user_id):
